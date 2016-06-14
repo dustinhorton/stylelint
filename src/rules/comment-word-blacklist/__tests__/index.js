@@ -7,6 +7,7 @@ const rule = rules[ruleName]
 testRule(rule, {
   ruleName,
   config: ["bad-word"],
+
   accept: [ {
     code: "/* comment */",
   }, {

@@ -4,6 +4,7 @@ import {
   ruleMessages,
   validateOptions,
   matchesStringOrRegExp,
+  containsString,
 } from "../../utils"
 
 export const ruleName = "comment-word-blacklist"
@@ -28,7 +29,7 @@ export default function (blacklist) {
       // Return early if sourcemap
       if (firstFourChars === "/*# ") { return }
 
-      const matchesWord = matchesStringOrRegExp(text, blacklist)
+      const matchesWord = matchesStringOrRegExp(text, blacklist) || containsString(text, blacklist)
 
       if (!matchesWord) { return }
 
