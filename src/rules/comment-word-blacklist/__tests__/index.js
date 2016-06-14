@@ -7,25 +7,42 @@ const rule = rules[ruleName]
 testRule(rule, {
   ruleName,
   config: ["bad-word"],
-
   accept: [ {
     code: "/* comment */",
   }, {
-    code: "/*! bad-word */",
-  }, {
-    code: "/*# bad-word */",
-  }, {
-    code: "/** bad-word **/",
-  }, {
-    code: "/*** bad-word ***/",
+    code: "/*# bad-word */", // ignore sourcemaps
   } ],
 
-  reject: [{
+  reject: [ {
+    code: "/* Comment with bad-word  */",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  },
+  {
     code: "/* bad-word */",
     message: messages.rejected("bad-word"),
     line: 1,
     column: 1,
-  }],
+  },
+  {
+    code: "/*** bad-word ***/",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  },
+  {
+    code: "/*! bad-word */",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  },
+  {
+    code: "/** bad-word **/",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  } ],
 })
 
 testRule(rule, {
@@ -56,6 +73,8 @@ testRule(rule, {
   }, {
     code: "/*# sourcemap */",
   }, {
+    code: "/*# sourcemap bad-word */",
+  }, {
     code: "a { color: pink; /* comment */\ntop: 0; }",
   }, {
     code: "a {} /* comment */",
@@ -69,20 +88,10 @@ testRule(rule, {
     code: "/* tOdO: comment */",
   }, {
     code: "/* Todo: comment */",
-  }, {
-    code: "/* Comment with bad-word */",
-  }, {
+  },  {
     code: "/*! Todo: comment */",
   }, {
     code: "/*# Todo: comment */",
-  }, {
-    code: "/*! bad-word */",
-  }, {
-    code: "/*# bad-word */",
-  }, {
-    code: "/** bad-word **/",
-  }, {
-    code: "/*** bad-word ***/",
   }, {
     code: "/** TODO: comment **/",
   }, {
@@ -141,6 +150,26 @@ testRule(rule, {
     column: 1,
   }, {
     code: "/* bad-word */",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  }, {
+    code: "/* Comment with bad-word */",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  }, {
+    code: "/*! copyright bad-word */",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  }, {
+    code: "/** bad-word **/",
+    message: messages.rejected("bad-word"),
+    line: 1,
+    column: 1,
+  }, {
+    code: "/*** bad-word ***/",
     message: messages.rejected("bad-word"),
     line: 1,
     column: 1,
